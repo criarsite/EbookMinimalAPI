@@ -1,3 +1,5 @@
+using EbookMininalAPI.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,14 +9,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
+builder.Services.AddScoped<IEbookServices, EbookServices>();
 
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+ 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -22,60 +25,31 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+ 
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-
-List<Ebook> ebooks = new()
+app.MapGet("/api/ebooks", async (IEbookServices ebookService) =>
 {
-    new(){Id = 1, Title = "Blazor Pro", Year= 2022},
-    new(){Id = 2, Title = ".Net Pro", Year= 2021},
-    new(){Id = 3, Title = "C# Pro", Year= 2020},
-    new(){Id = 4, Title = "Developer Pro", Year= 2019},
-    new(){Id = 5, Title = "Development Pro", Year= 2018},
-};
-
-app.MapGet("/api/ebooks", () =>
-{
-    return Results.Ok(ebooks);
+    return Results.Ok(await ebookService.GetAll());
 });
 
-app.MapGet("/api/ebooks/{id:int}", (int id) =>
-{
-    return Results.Ok(ebooks.Single(e => e.Id == id));
+app.MapGet("/api/ebooks/{id:int}", async (int id, IEbookServices ebookService) =>
+{    
+    return Results.Ok( await ebookService.GetById(id));
 });
 
-app.MapPost("/api/ebooks/", (Ebook ebook) =>
+app.MapPost("/api/ebooks/",  async (Ebook ebook, IEbookServices ebookService) =>
 {
-    ebooks.Add(ebook);
-    return Results.Ok(ebooks);
-
+    ebookService.Insert(ebook);
+    return Results.Ok(await ebookService.GetAll());
 });
+ 
 
-app.MapPut("/api/ebooks", (Ebook ebook) =>
+app.MapDelete("/api/ebooks/{id:int}", async (int id, IEbookServices ebookService) =>
 {
-    Ebook foundEbook = ebooks.Single(e => e.Id == ebook.Id);
-    
-});
-
-app.MapDelete("/api/ebooks/{id:int}", (int id) =>
-{
-    ebooks.Remove(ebooks.Single( e => e.Id == id));
-    return Results.Ok(ebooks);
-
+     ebookService.Delete(id);
+    return Results.Ok(await ebookService.GetAll());
 });
 
 
 app.Run();
 
-
-
-
-public class Ebook
-{
-    public int Id {get; set;}
-    public string Title {get; set;}
-    public int Year {get; set;}
-}

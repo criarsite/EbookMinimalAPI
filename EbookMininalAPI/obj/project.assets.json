@@ -466,11 +466,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bootcamps\\EbookMininalAPI\\EbookMininalAPI.csproj",
+      "projectUniqueName": "D:\\Bootcamps\\EbookMinimalAPI\\EbookMininalAPI\\EbookMininalAPI.csproj",
       "projectName": "EbookMininalAPI",
-      "projectPath": "D:\\Bootcamps\\EbookMininalAPI\\EbookMininalAPI.csproj",
+      "projectPath": "D:\\Bootcamps\\EbookMinimalAPI\\EbookMininalAPI\\EbookMininalAPI.csproj",
       "packagesPath": "C:\\Users\\oktug\\.nuget\\packages\\",
-      "outputPath": "D:\\Bootcamps\\EbookMininalAPI\\obj\\",
+      "outputPath": "D:\\Bootcamps\\EbookMinimalAPI\\EbookMininalAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
